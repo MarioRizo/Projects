@@ -4,10 +4,8 @@ class Alcohol(object):
 
 	totals = []
 	
-	def __init__(self, size=
-                     '1l', fullBottles=0, threeQuarters=0, half=0, oneQuarters=0, price=0):
+	def __init__(self, fullBottles=0, threeQuarters=0, half=0, oneQuarters=0, price=0):
 	
-		self.size = size
 		self.fullBottles = fullBottles
 		self.threeQuarters = threeQuarters
 		self.half = half
@@ -16,14 +14,11 @@ class Alcohol(object):
 		
 	def total(self):
 		total = (self.price*self.fullBottles)+(self.price*self.threeQuarters*.75)+(self.price*self.half*.5)+(self.price*self.oneQuarters*.25)
-		Alcohol.totals.append(total)
+		self.totals.append(total)
 		return total
 		
-	def bottles(self):
-		self.fullBottles = fullBottles
-		self.threeQuarters = threeQuarters
-		self.half = half
-		self.oneQuarters = oneQuarters
+	def __str__(self):
+		return str(self.fullBottles)
 		
 def getAmount(size=None):
 	'''Take input as int error handle
@@ -31,7 +26,7 @@ def getAmount(size=None):
 	while ValueError:
 		try:
 			if size == None:
-				amount = int(input('Enter the amount: '))
+				amount = input('Enter the amount: ')
 				return amount
 			else:
 				print('Enter the amount of %s: ' %  (size))
@@ -60,7 +55,7 @@ def main():
 	while choice != '0':
 		
 		print('''Your choices are... 
-			1 - Add a new alcohol bottle and information
+			1 - Add a new alcohol bottle
 			2 - Edit number bottles: 
 			3 - Edit prices: 
 			4 - Remove a bottle:
@@ -84,13 +79,13 @@ def main():
 			name = getName()
 			if name in alcohols: #checking make sure alcohol is already in the list otherwise they need to create it
 				amount = getAmount(size='fullBottles')
-				setattr(name, fullBottles, amount)
+				setattr(alcohols[name], 'fullBottles', amount)
 				amount = getAmount(size='threeQuarters')
-				setattr(name, threeQuarters, amount)
+				setattr(alcohols[name], 'threeQuarters', amount)
 				amount = getAmount(size='half')
-				setattr(name, half, amount)
+				setattr(alcohols[name], 'half', amount)
 				amount = getAmount(size='oneQuarters')
-				setattr(name, oneQuarters, amount)
+				setattr(alcohols[name], 'oneQuarters', amount)
 			elif name not in alcohols:
 				print('This alcohol doesn\'t exist. Try again.')
 			else:
@@ -100,7 +95,7 @@ def main():
 			name = getName()
 			if name in alcohols:
 				amount = getAmount()
-				setattr(name, price, amount)
+				setattr(alcohols[name], 'price', amount)
 			elif name not in alcohols:
 				print('This alcohol doesn\'t exist. Try again.')
 			else:
@@ -116,7 +111,6 @@ def main():
 				print('Debugging purposes')
 		elif choice == '5':
 			print(alcohols.keys())
-			print(alcohols.values())
 		elif choice == '6':
 			print(sum(Alcohol.totals))
 		elif choice == '0':
