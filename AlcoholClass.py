@@ -26,7 +26,7 @@ def getAmount(size=None):
 	while ValueError:
 		try:
 			if size == None:
-				amount = input('Enter the amount: ')
+				amount = float(input('Enter the amount: '))
 				return amount
 			else:
 				print('Enter the amount of %s: ' %  (size))
@@ -34,14 +34,20 @@ def getAmount(size=None):
 				return amount
 		except ValueError:
 			print('\nThat wasn\'t a number')
+
 			
 def getName():
 	#Error handling of name.
-	name = ''
+	name = input('Enter a name: ')
 	while KeyError:
-		name = input('\nName: ')
-		return name
-		
+		try:
+			name = str(input('Enter a name: '))
+			if name == '' or name.isdigit():
+				print('Invalid name. Try again.')
+			else:
+				return name
+		except KeyError:
+			print('Invalid name. Try again.')
 	
 def main():	
 	
@@ -108,18 +114,17 @@ def main():
 			print(alcohols.keys())
 		elif choice == '6':
 			try:
-				for i in alcohols:
-					alcohols[i].total()
+				for i in alcohols.keys():
+					i.total()
 				print(Alcohol.totals)
 			except TypeError:
 				print('Says no self parameter.')
 		elif choice == '0':
 			print('Exiting and saving the data.')
-			alcohols.dump() #saves the dictionary data as is
+			alcohols.dump('Alcohols.txt') #saves the dictionary data as is
 			print(alcohols.keys())
 		else:
 			print('That\'s not a valid choice.')
-			choice = input('Which option would you like: ')
 	
 main()
 
