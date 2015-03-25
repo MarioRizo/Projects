@@ -2,7 +2,7 @@ from klepto.archives import file_archive
 
 class Alcohol(object):
 
-	totals = []
+	totals = 0
 	
 	def __init__(self, fullBottles=0, threeQuarters=0, half=0, oneQuarters=0, price=0):
 	
@@ -14,11 +14,11 @@ class Alcohol(object):
 		
 	def total(self):
 		total = (self.price*self.fullBottles)+(self.price*self.threeQuarters*.75)+(self.price*self.half*.5)+(self.price*self.oneQuarters*.25)
-		self.totals.append(total)
+		Alcohol.totals += total
 		return total
 		
 	def __str__(self):
-		return str(self.fullBottles)
+		return Alcohol.totals
 		
 def getAmount(size=None):
 	'''Take input as int error handle
@@ -50,7 +50,8 @@ def main():
 		alcohols = file_archive('Alcohols.txt')
 		alcohols.load()
 	except IOError:
-		print('%s doesn\'t exist.' % (alcohols))
+		alcohols = {}
+		print('alcohols doesn\'t exist.')
 		
 	while choice != '0':
 		
@@ -72,7 +73,7 @@ def main():
 			if name in alcohols:
 				print('Sorry this alcohol is already created. Pick the correct choice to edit.')
 			else:
-				alcohols[name] = Alcohol #instantiates the new class
+				alcohols[name] = Alcohol() #instantiates the new class
 				
 		elif choice == '2':
 			print('Enter the name of the alcohol you wish to edit.')
@@ -88,8 +89,6 @@ def main():
 				setattr(alcohols[name], 'oneQuarters', amount)
 			elif name not in alcohols:
 				print('This alcohol doesn\'t exist. Try again.')
-			else:
-				print('Debugging purposes')
 		elif choice == '3':
 			print('What is the name of alcohol which price you want to edit? ')
 			name = getName()
@@ -98,34 +97,32 @@ def main():
 				setattr(alcohols[name], 'price', amount)
 			elif name not in alcohols:
 				print('This alcohol doesn\'t exist. Try again.')
-			else:
-				print('Debugging purposes')
 		elif choice == '4':
 			print('Enter the name of the alcohol you wish to remove.')
 			name = getName()
 			if name not in alcohols:
 				print('This alcohol doesn\'t exist. Try again.')
 			elif name in alcohols:
-				alcohols.pop(name, None) #Pops the key out of the dict and return None if keyerror raised
-			else:
-				print('Debugging purposes')
+				del alcohols[name] #deletes the key out of the dict
 		elif choice == '5':
 			print(alcohols.keys())
 		elif choice == '6':
-			print(sum(Alcohol.totals))
+			try:
+				for i in alcohols:
+					alcohols[i].total()
+				print(Alcohol.totals)
+			except TypeError:
+				print('Says no self parameter.')
 		elif choice == '0':
 			print('Exiting and saving the data.')
-	
 			alcohols.dump() #saves the dictionary data as is
+			print(alcohols.keys())
 		else:
 			print('That\'s not a valid choice.')
 			choice = input('Which option would you like: ')
 	
 main()
 
-'''Still more work to be done but at a good stopping point to show you even in a small amount of time
-I can do alot of good work. Also I'm not even sure if I'm using classes correctly at this point I haven't
-run this on any data but the general idea, I believe, is presentable.'''	
 		
 
 		
