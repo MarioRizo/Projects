@@ -38,14 +38,13 @@ def getAmount(size=None):
 			
 def getName():
 	#Error handling of name.
-	name = input('Enter a name: ')
 	while KeyError:
 		try:
 			name = str(input('Enter a name: '))
 			if name == '' or name.isdigit():
 				print('Invalid name. Try again.')
-			elif name.isalpha() == True:
-				return name
+			elif ''.join(name.split()).isalpha() == True:
+				return name 
 			else:
 				print('Something went wrong with the name.')
 		except KeyError:
@@ -116,7 +115,7 @@ def main():
 			print(alcohols.keys())
 		elif choice == '6':
 			try:
-				for i in alcohols.keys():
+				for i in alcohols.values():
 					i.total()
 				print(Alcohol.totals)
 			except TypeError:
