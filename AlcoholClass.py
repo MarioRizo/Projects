@@ -44,8 +44,10 @@ def getName():
 			name = str(input('Enter a name: '))
 			if name == '' or name.isdigit():
 				print('Invalid name. Try again.')
-			else:
+			elif name.isalpha() == True:
 				return name
+			else:
+				print('Something went wrong with the name.')
 		except KeyError:
 			print('Invalid name. Try again.')
 	
