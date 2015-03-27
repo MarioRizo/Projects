@@ -14,7 +14,7 @@ class Alcohol(object):
         
     def total(self):
         total = (self.price*self.fullBottles)+(self.price*self.threeQuarters*.75)+(self.price*self.half*.5)+(self.price*self.oneQuarters*.25)
-        Alcohol.totals += total
+        Alcohol.totals += total 
         return total
         
     def __str__(self):
@@ -114,6 +114,7 @@ def main():
         elif choice == '5':
             print([i for i in alcohols.keys()])
         elif choice == '6':
+            Alcohol.totals = 0
             for i in alcohols.values():
                 i.total()
             print(Alcohol.totals)
