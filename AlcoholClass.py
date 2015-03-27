@@ -18,7 +18,7 @@ class Alcohol(object):
         return total
         
     def __str__(self):
-        return str(Alcohol.totals)
+        return 'Full:'+str(self.fullBottles)+' threeQuarters:'+str(self.threeQuarters)+' half:'+str(self.half)+' oneQuarters:'+str(self.oneQuarters)
         
 def getAmount(size=None):
     '''Take input as int error handle
@@ -34,21 +34,30 @@ def getAmount(size=None):
                 return amount
         except ValueError:
             print('\nThat wasn\'t a number')
-
             
 def getName():
     #Error handling of name.
     while KeyError:
         try:
             name = str(input('Enter a name: '))
-            if name == '' or name.isdigit():
+            if name == '':
                 print('Invalid name. Try again.')
-            elif ''.join(name.split()).isalpha() == True:
-                return name 
             else:
-                print('Something went wrong with the name.')
+                return name
         except KeyError:
             print('Invalid name. Try again.')
+            
+def getSize():
+    #Error handling of size
+    while KeyError:
+        try:
+            size = str(input('Enter a size: '))
+            if size == '':
+                print('Invalid size. Try again.')
+            elif size in ['fullBottles', 'threeQuarters', 'half', 'oneQuarters', 'all']:
+                return size 
+        except KeyError:
+            print('Invalid size. Try again.')
     
 def main(): 
     
@@ -66,7 +75,7 @@ def main():
             1 - Add a new alcohol bottle
             2 - Edit number bottles: 
             3 - Edit prices: 
-            4 - Remove a bottle:
+            4 - Remove a bottle from inventory:
             5 - View alcohols in inventory.
             6 - View grandtotal of inventory.
             0 - To save and exit the program
@@ -86,14 +95,35 @@ def main():
             print('Enter the name of the alcohol you wish to edit.')
             name = getName()
             if name in alcohols: #checking make sure alcohol is already in the list otherwise they need to create it
-                amount = getAmount(size='fullBottles')
-                setattr(alcohols[name], 'fullBottles', amount)
-                amount = getAmount(size='threeQuarters')
-                setattr(alcohols[name], 'threeQuarters', amount)
-                amount = getAmount(size='half')
-                setattr(alcohols[name], 'half', amount)
-                amount = getAmount(size='oneQuarters')
-                setattr(alcohols[name], 'oneQuarters', amount)
+                print('\nWhich size of bottle or all of them?')
+                print('If you want to add or subtract just take current amount\nand add however many bottles or subtract. \nExample: Current amount=10 want to take 2 away. Just enter 8 amount of bottles.')
+                size = getSize()
+                if size == 'all':
+                    print(alcohols[name])
+                    amount = getAmount(size='fullBottles')
+                    setattr(alcohols[name], 'fullBottles', amount)
+                    amount = getAmount(size='threeQuarters')
+                    setattr(alcohols[name], 'threeQuarters', amount)
+                    amount = getAmount(size='half')
+                    setattr(alcohols[name], 'half', amount)
+                    amount = getAmount(size='oneQuarters')
+                    setattr(alcohols[name], 'oneQuarters', amount)
+                elif size == 'fullBottles':  #finish rest of the sizes make it getitem and they can add or subtract. not sure on this
+                    print('Currently have %s.'  % (alcohols[name].fullBottles))
+                    amount = getAmount(size) 
+                    setattr(alcohols[name], 'fullBottles', amount)
+                elif size == 'threeQuarters':
+                    print('Currently have %s.' % (alcohols[name].threeQuarters))
+                    amount = getAmount(size)
+                    setattr(alcohols[name], 'threeQuarters', amount)
+                elif size == 'half':
+                    print('Currently have %s.' % (alcohols[name].half))
+                    amount = getAmount(size)
+                    setattr(alcohols[name], 'half', amount)
+                elif size == 'oneQuarters':
+                    print('Currently have %s.' % (alcohols[name].oneQuarters))
+                    amount = getAmount(size)
+                    setattr(alcohols[name], 'oneQuarters', amount)
             elif name not in alcohols:
                 print('This alcohol doesn\'t exist. Try again.')
         elif choice == '3':
