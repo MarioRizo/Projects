@@ -1,4 +1,4 @@
-from klepto.archives import file_archive
+from klepto.archives import *
 
 class Alcohol(object):
 
@@ -110,7 +110,8 @@ def main():
             if name not in alcohols:
                 print('This alcohol doesn\'t exist. Try again.')
             elif name in alcohols:
-                del alcohols[name] #deletes the key out of the dict
+                alcohols.pop(name) #deletes the key out of the dict
+                alcohols.archive.pop(name)
         elif choice == '5':
             print([i for i in alcohols.keys()])
         elif choice == '6':
@@ -119,8 +120,9 @@ def main():
                 i.total()
             print(Alcohol.totals)
         elif choice == '0':
+            alcohols.dump() #saves the dictionary data as is
+            alcohols.archive
             print('Exiting and saving the data.')
-            alcohols.dump('Alcohols.txt') #saves the dictionary data as is
         else:
             print('That\'s not a valid choice.')
     
