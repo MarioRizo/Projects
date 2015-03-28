@@ -1,4 +1,6 @@
-from klepto.archives import *
+# -*- coding: utf-8 -*-
+#!/usr/bin/python3
+from klepto.archives import file_archive
 
 class Alcohol(object):
 
