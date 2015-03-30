@@ -1,5 +1,12 @@
 # Projects
-Projects Repository
-Simple Projects to display relevant work ideas. I am very new to programming so any help would be appreciated.
-Need to set totals to get the total of each bottle in the alcohols list. Currently I can get the individual total correctly but not in the list.
-Last bit of error checking catching any exceptions and it will be done? 
+AlcoholClass.py README
+There are two modules being used that are not standard with the python library. Versions greater than python 3.4 come preinstalled with pip.
+We will be using pip to install both the necesarry modules for this program to execute. 
+
+On windows
+-From start run CMD. You can just search for it.
+-inside the CMD module type
+-pip install klepto
+-pip install XlsxWriter
+
+Finished for the most part. If you find any bugs please report them to me. I have some more ideas on what I can do to add to it later.
