@@ -166,12 +166,16 @@ def main():
             workbook = xlsxwriter.Workbook(month)
             worksheet = workbook.add_worksheet('Inventory')
             row, col = 0, 0
-            worksheet.write(row, col, 'Alcohols')
-            worksheet.write(row, col+1, 'Full Bottles')
-            worksheet.write(row, col+2, '3/4 Bottles')
-            worksheet.write(row, col+3, '1/2 Bottles')
-            worksheet.write(row, col+4, '1/4 Bottles')
-            worksheet.write(row, col+5, 'Total')
+            worksheet.set_column('B1:F5',12)
+            worksheet.set_column(0,0,20)
+            bold = workbook.add_format({"bold": True})
+            money = workbook.add_format({'num_format': '$#,###.##'})
+            worksheet.write(row, col, 'Alcohols', bold)
+            worksheet.write(row, col+1, 'Full Bottles', bold)
+            worksheet.write(row, col+2, '3/4 Bottles', bold)
+            worksheet.write(row, col+3, '1/2 Bottles', bold)
+            worksheet.write(row, col+4, '1/4 Bottles', bold)
+            worksheet.write(row, col+5, 'Total', bold)
             row += 1
             for i in sorted(alcohols):
                 alcohol = i
@@ -185,10 +189,10 @@ def main():
                 worksheet.write(row, col+2, threequarters)
                 worksheet.write(row, col+3, halfbottles)
                 worksheet.write(row, col+4, onequarter)
-                worksheet.write(row, col+5, sum)
+                worksheet.write(row, col+5, '%.2f' % sum, money)
                 row += 1
-            worksheet.write(row, col, 'Grand total')
-            worksheet.write(row, col+1, Alcohol.totals)
+            worksheet.write(row, col, 'Grand total', bold)
+            worksheet.write(row, col+5, '%.2f' % Alcohol.totals, money)
         elif choice == '8':
             for i in alcohols:
                 if alcohols[i].fullBottles <= 1:
