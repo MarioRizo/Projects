@@ -166,7 +166,7 @@ def main():
             workbook = xlsxwriter.Workbook(month)
             worksheet = workbook.add_worksheet('Inventory')
             row, col = 0, 0
-            worksheet.set_column('B1:F5',12)
+            worksheet.set_column('B1:F6',12)
             worksheet.set_column(0,0,20)
             bold = workbook.add_format({"bold": True})
             worksheet.write(row, col, 'Alcohols', bold)
@@ -174,7 +174,8 @@ def main():
             worksheet.write(row, col+2, '3/4 Bottles', bold)
             worksheet.write(row, col+3, '1/2 Bottles', bold)
             worksheet.write(row, col+4, '1/4 Bottles', bold)
-            worksheet.write(row, col+5, 'Total', bold)
+            worksheet.write(row, col+5, 'Price', bold)
+            worksheet.write(row, col+6, 'Total', bold)
             row += 1
             for i in sorted(alcohols):
                 alcohol = i
@@ -182,20 +183,23 @@ def main():
                 threequarters = alcohols[i].threeQuarters
                 halfbottles = alcohols[i].half
                 onequarter = alcohols[i].oneQuarters
+                price = alcohols[i].price
                 sum = alcohols[i].total()
                 worksheet.write(row, col, alcohol)
                 worksheet.write(row, col+1, fullbottles)
                 worksheet.write(row, col+2, threequarters)
                 worksheet.write(row, col+3, halfbottles)
                 worksheet.write(row, col+4, onequarter)
-                worksheet.write(row, col+5, '$%.2f' % sum)
+                worksheet.write(row, col+5, '$%.2f' % price)
+                worksheet.write(row, col+6, '$%.2f' % sum)
                 row += 1
             worksheet.write(row, col, 'Grand total', bold)
-            worksheet.write(row, col+5, '$%.2f' % Alcohol.totals)
+            worksheet.write(row, col+6, '$%.2f' % Alcohol.totals)
         elif choice == '8':
             for i in alcohols:
                 if alcohols[i].fullBottles <= 1:
-                    print(i, 'is low.')
+                    full = alcohols[i].fullBottles
+                    print(i, 'is low.\nYou have:', full)
         elif choice == '0':
             alcohols.dump() #saves the dictionary data as is
             alcohols.archive
