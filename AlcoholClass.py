@@ -162,14 +162,21 @@ def main():
         elif choice == '7':
             Alcohol.totals = 0
             print('Enter the name of the month.')
-            month = getName()+'.xlsx'
-            workbook = xlsxwriter.Workbook(month)
+            month = getName()
+            filename = month+'.xlsx'
+            workbook = xlsxwriter.Workbook(filename)
             worksheet = workbook.add_worksheet('Inventory')
+            header = 'Los Portales Union City'
+            footer = 'Month of: %s' % (month)
+            worksheet.set_header(header)
+            worksheet.set_footer(footer)
             row, col = 0, 0
-            worksheet.set_column('B1:F6',12)
-            worksheet.set_column(0,0,20)
+            worksheet.set_column('B1:F6',11)
+            worksheet.set_column(0,0,17)
+            worksheet.hide_gridlines(0)
             bold = workbook.add_format({"bold": True})
             worksheet.write(row, col, 'Alcohols', bold)
+            bold.set_align('center')
             worksheet.write(row, col+1, 'Full Bottles', bold)
             worksheet.write(row, col+2, '3/4 Bottles', bold)
             worksheet.write(row, col+3, '1/2 Bottles', bold)
@@ -177,6 +184,8 @@ def main():
             worksheet.write(row, col+5, 'Price', bold)
             worksheet.write(row, col+6, 'Total', bold)
             row += 1
+            format = workbook.add_format()
+            format.set_align('center')
             for i in sorted(alcohols):
                 alcohol = i
                 fullbottles = alcohols[i].fullBottles
@@ -186,12 +195,12 @@ def main():
                 price = alcohols[i].price
                 sum = alcohols[i].total()
                 worksheet.write(row, col, alcohol)
-                worksheet.write(row, col+1, fullbottles)
-                worksheet.write(row, col+2, threequarters)
-                worksheet.write(row, col+3, halfbottles)
-                worksheet.write(row, col+4, onequarter)
-                worksheet.write(row, col+5, '$%.2f' % price)
-                worksheet.write(row, col+6, '$%.2f' % sum)
+                worksheet.write(row, col+1, fullbottles, format)
+                worksheet.write(row, col+2, threequarters, format)
+                worksheet.write(row, col+3, halfbottles, format)
+                worksheet.write(row, col+4, onequarter, format)
+                worksheet.write(row, col+5, '$%.2f' % price, format)
+                worksheet.write(row, col+6, '$%.2f' % sum, format)
                 row += 1
             worksheet.write(row, col, 'Grand total', bold)
             worksheet.write(row, col+6, '$%.2f' % Alcohol.totals)
